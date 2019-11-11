@@ -1,12 +1,11 @@
+require ('dotenv').config();
+require ('newrelic');
 var express = require('express');
 var cors = require('cors');
 var path = require('path');
 var PORT = process.env.PORT || 5000
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var moment = require('moment');
-moment().format();
-
 
 // Initialize Express
 var app = express();
@@ -27,7 +26,7 @@ mongoose.connect(dbURI, {
 });
 var db = mongoose.connection;
 db.on("error", function(error) {
-  console.log(colors.red("Database Error:", error));
+  console.log("Database Error:", error);
 });
 db.once("open", function () {
   console.log("Mongoose connection successfully.");
