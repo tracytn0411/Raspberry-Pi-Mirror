@@ -4,6 +4,9 @@ var path = require('path');
 var PORT = process.env.PORT || 5000
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var moment = require('moment');
+moment().format();
+
 
 // Initialize Express
 var app = express();
