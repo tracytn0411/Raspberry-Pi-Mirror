@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "create a smart mirror using Raspberry Pi 4, monitored with a full stack app.",
   "main": "server.js",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"nodemon server.js\" \"cd client && npm run start\"",
@@ -17,11 +20,12 @@
   "bugs": {
     "url": "https://github.com/tracytn0411/Raspberry-Pi-Mirror/issues"
   },
-  "homepage": "https://github.com/tracytn0411/Raspberry-Pi-Mirror#readme",
+  "homepage": "https://full-stack-smart-mirror.herokuapp.com/",
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.7.9"

@@ -11,9 +11,24 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors())
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'client/build'))); //frontend code
 
-//This tell express server where the frontend code is
-app.use(express.static(path.join(__dirname, 'client/build')));
+//Connect to MongoDB
+const mongoose = require('mongoose');
+const dbURI = 'mongodb://localhost:27017/raspi_mirror'
+mongoose.connect(dbURI, {
+  //to get rid of terminal deprecationwarning
+  useCreateIndex: true,
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+});
+var db = mongoose.connection;
+db.on("error", function(error) {
+  console.log(colors.red("Database Error:", error));
+});
+db.once("open", function () {
+  console.log("Mongoose connection successfully.");
+});
 
 // Direct to homepage
 app.get('/', (req, res) => {
