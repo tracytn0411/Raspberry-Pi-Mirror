@@ -1,12 +1,15 @@
 import React from 'react';
+
 import './App.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import Moment from './Moment';
 import Weather from './Weather';
 
+
 function App() {
   return (
     <Container fluid className="App">
+
       <Row className='Moment'>
         <Col>
           <Moment />
@@ -31,8 +34,10 @@ function App() {
           <p>Google Geo API goes here</p>
         </Col>
       </Row>
+
     </Container>
   );
 }
+
 
 export default App;
