@@ -4,7 +4,7 @@ import './App.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import Moment from './Moment';
 import Weather from './Weather';
-
+import News from './News';
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
       </Row>
       <Row className='News mt-auto'>
         <Col>
-          <p>News Feed goes here</p>
+          <News />
         </Col>
         <Col className='Geo text-right'>
           <p>Google Geo API goes here</p>
