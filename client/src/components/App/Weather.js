@@ -1,16 +1,17 @@
+import React, { Component } from "react";
 
-import React from "react";
+class Weather extends Component {
 
-const API_KEY = "1444bdaa591bdc020e5c5115de2bacc0";
-
-class Weather extends React.Component {
-    state = {
-        temperature: undefined,
-        city: undefined,
-        // country: undefined,
-        // humidity: undefined,
-        // description: undefined,
-        error: undefined
+    constructor() {
+        super()
+        this.state = {
+            temperature: undefined,
+            city: undefined,
+            // country: undefined,
+            // humidity: undefined,
+            // description: undefined,
+            error: undefined
+        }
     }
 
     componentDidMount() {
@@ -27,9 +28,14 @@ class Weather extends React.Component {
     }
 
     getWeather = async (lat, long) => {
-
+        console.log('hi')
         // e.preventDefault();
-        const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=Imperial`);
+        const api_call = await fetch(`http://localhost:5000/weather`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat: lat, lon: long })
+        });
+        console.log(api_call)
         const data = await api_call.json();
         console.log(data);
         this.setState({
@@ -46,7 +52,7 @@ class Weather extends React.Component {
         return (
             <div>
                 <h1>Weather</h1>
-                <h4>{`Temperature: ${this.state.temperature}F`}</h4>
+                <h4>{`Temperature: ${this.state.temperature} F`}</h4>
                 <h4>{`City: ${this.state.city}`}</h4>
             </div>
 
