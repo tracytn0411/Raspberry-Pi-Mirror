@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from 'axios';
+import moment from 'moment';
 
 class News extends Component {
 	constructor(props) {
@@ -7,21 +8,24 @@ class News extends Component {
 		super(props);
 		// initial state
 		this.state = {
-			articles: []
+			articles: [],
+			date: moment().startOf('hour').fromNow()
 		};
-
-		this.apiUrl = `https://newsapi.org/v2/top-headlines?country=us&pageSize=7&apiKey=3aeb437f441449bb99e5a5c0b96125b5`
 	}
 
 	componentWillMount() {
-		axios.get(this.apiUrl).then(res => {
-			const articles = res.data.articles;
-
-			this.setState({articles: articles})
-			console.log(articles)
-		}).catch(error => {
-			console.log(error)
-		});
+		axios
+			.get('/api/news')
+			.then(res => {
+				const articles = res.data.articles;
+				this.setState({
+					articles: articles
+				})
+				console.log(articles)
+			})
+			.catch(error => {
+				console.log(error)
+			});
 	}
 
 	render() {
