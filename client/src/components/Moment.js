@@ -27,7 +27,6 @@ class Moment extends Component {
     this.setState({
       date: moment().format('dddd, MMMM D, YYYY'),
       time: moment().format('h:mm:ss a')
-
     })
   }
 
