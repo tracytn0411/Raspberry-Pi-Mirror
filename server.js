@@ -60,7 +60,7 @@ app.get('/api/forecast', (req, res) => {
         .get(darkskyUrl)
         .then(forecast => {
           var daily = forecast.data.daily.data
-          console.log(daily)
+          //console.log(daily)
           res.json(daily)
         })
         .catch(error => {
@@ -73,5 +73,16 @@ app.get('/api/forecast', (req, res) => {
   
 })
 
+app.get('/api/news', (req, res) => {
+  var newsURL = `https://newsapi.org/v2/top-headlines?country=us&pageSize=7&apiKey=${process.env.GOOGLENEWS_API_KEY}`
+
+  axios
+    .get(newsURL)
+    .then(response => {
+      console.log(response.data)
+      res.json(response.data);
+    })
+    .catch(err => (console.log(err)))
+})
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
