@@ -2,9 +2,10 @@ import React from 'react';
 
 import './App.css';
 import {Container, Row, Col} from 'react-bootstrap';
-import Moment from './Moment';
-import Weather from './Weather';
-
+import Moment from './components/Moment';
+import Weather from './components/Weather';
+import News from './components/News';
+import Forecast from './components/Forecast'
 
 function App() {
   return (
@@ -23,12 +24,14 @@ function App() {
           <p>Calendar API goes here</p>
         </Col>
         <Col className='Forecase text-right'>
+
           <p>Weather Forecast goes here</p>
+          <Forecast />
         </Col>
       </Row>
       <Row className='News mt-auto'>
         <Col>
-          <p>News Feed goes here</p>
+          <News />
         </Col>
         <Col className='Geo text-right'>
           <p>Google Geo API goes here</p>
