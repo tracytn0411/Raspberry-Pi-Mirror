@@ -51,8 +51,8 @@ class Weather extends Component {
     render() {
         return (
             <div>
-                <h1>Weather</h1>
-                <h4>{`Temperature: ${this.state.temperature} F`}</h4>
+                {/* <h1>Weather</h1> */}
+                <h4>{`Temp: ${this.state.temperature}`}&deg;F</h4>
                 <h4>{`City: ${this.state.city}`}</h4>
             </div>
 
