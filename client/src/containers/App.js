@@ -7,6 +7,7 @@ import Weather from "./components/Weather";
 import News from "./components/News";
 import Forecast from "./components/Forecast";
 import Map from "./components/Map";
+import Commute from "./components/Commute"
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
           <p>Calendar API goes here</p>
         </Col>
         <Col className="Forecast text-right">
-          <Forecast />
+          {/* <Forecast /> */}
+
         </Col>
       </Row>
       <Row className="News mt-auto">
@@ -33,7 +35,8 @@ function App() {
         </Col>
         <Col className="Geo text-right">
           <p>Google Geo API goes here</p>
-          <Map />
+          <Commute />
+          {/* <Map /> */}
         </Col>
       </Row>
     </Container>
