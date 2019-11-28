@@ -19,7 +19,7 @@ class Weather extends Component {
         const location = window.navigator && window.navigator.geolocation
         // console.log(location)
         location.getCurrentPosition((data) => {
-            console.log(data)
+            //console.log(data)
             var lat = data.coords.latitude
             var long = data.coords.longitude
             this.getWeather(lat, long)
@@ -35,9 +35,9 @@ class Weather extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lat: lat, lon: long })
         });
-        console.log(api_call)
+        //console.log(api_call)
         const data = await api_call.json();
-        console.log(data);
+        //console.log(data);
         this.setState({
             temperature: data.main.temp,
             city: data.name,
@@ -46,7 +46,7 @@ class Weather extends Component {
             // description: data.weather[0].description,
             error: ""
         })
-        console.log(this.state)
+        //console.log(this.state)
     }
     render() {
         return (

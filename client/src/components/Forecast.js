@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-//import Skycons from "react-skycons";
 import { Row, Col } from "react-bootstrap";
 import moment from "moment";
 import ReactAnimatedWeather from "react-animated-weather";
 
-//const Skycons = require("skycons")(window);
 
 class Forecast extends Component {
   constructor(props) {
