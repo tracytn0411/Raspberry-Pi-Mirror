@@ -16,6 +16,14 @@ const pointSchema = new Schema({
 
 const locationSchema = new mongoose.Schema({
   name: String,
+  city: {
+    type: String,
+    default: 'San Francisco'
+  },
+  state:{
+    type: String,
+    default: 'CA'
+  },
   location: {
     type: pointSchema,
     required: true

@@ -19,7 +19,7 @@ class Custom extends Component {
     axios
       .get('api/geo')
       .then(res => 
-        console.log('Updated!'))
+        console.log(res.data))
       .catch(err => console.log(`API geo to get current location error: ${err}`))
   }
 

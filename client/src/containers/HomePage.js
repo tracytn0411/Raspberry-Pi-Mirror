@@ -1,12 +1,11 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 import {
   Container,
   Row,
   Col,
-  ResponsiveEmbed,
   Navbar,
-  Nav,
-  Button
+  Nav
 } from "react-bootstrap";
 import Custom from "./Custom";
 //import Display from "./Display";
@@ -39,14 +38,11 @@ class HomePage extends Component {
       <>
         <Navbar expand="lg">
           <Navbar.Brand href="/">React Smart Mirror</Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Item className="px-2">
-              {/* <Link to="/" className="btn btn-light">
-                  Home
-                </Link> */}
-              <Button href="/Display" variant="info">
+          <Nav className="mr-auto px-3">
+            <Nav.Item className='px-2'>
+              <Link to="/display" className="btn btn-info">
                 Run
-              </Button>
+              </Link>
             </Nav.Item>
           </Nav>
           <a
@@ -59,7 +55,7 @@ class HomePage extends Component {
 
         <Container fluid>
           <Row>
-            <Col xs={6} className="PreDisplay-Custom">
+            <Col xs={6} className="HomePage-Custom">
               <Custom
                 homeInput={this.state.homeInput}
                 workInput={this.state.workInput}
@@ -68,14 +64,10 @@ class HomePage extends Component {
               />
             </Col>
             <Col xs={6}>
-              {/* <Container className="PredDisplay-Display">
-                <Display />
+              {/* <Container className="HomePage-Display">
+                <Display style={{width: 100, height: 50}}/>
               </Container> */}
-              <div style={{ width: 500, height: "auto", fontSize: "3" }}>
-                <ResponsiveEmbed aspectRatio="21by9">
-                  <embed type="image/svg+xml" src="/display" />
-                </ResponsiveEmbed>
-              </div>
+            
             </Col>
           </Row>
         </Container>

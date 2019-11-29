@@ -16,13 +16,36 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.HomePage-Display {
-  height: 800;
-  width: 1280;
-
-}
-
 .card {
  margin-bottom: 1rem;
 }
 
+.Weather-row .col-2 {
+  padding: 0;
+}
+.Weather-row .col-2 canvas {
+  width: 7rem;
+  height: 7rem;
+}
+.Weather-row .col-3 {
+  font-size: 4rem;
+}
+
+.Weather-info {
+  border-bottom: gray 0.05rem solid;
+  margin-bottom: 0.8rem;
+}
+
+.Forecast-location {
+  border-bottom: blue 0.1rem solid;
+  margin-bottom: 0.7rem;
+}
+
+.Forecast-location div {
+  text-align: start;
+  margin-bottom: 0;
+}
+
+.Forecast-day .col-2 canvas {
+  width: 2rem;
+}

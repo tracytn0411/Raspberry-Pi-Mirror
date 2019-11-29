@@ -1,35 +1,63 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Row, Col, Container } from "react-bootstrap";
+import { FaCar } from "react-icons/fa";
+import '../containers/HomePage.css'
+
+
 
 class Commute extends Component {
 
 constructor(props) {
   super(props)
   this.state = {
-    data: []
+    toSchool: []
   }
 }
 
 componentDidMount(){
-  this.getData()
+  this.getCommute()
 }
 
-getData() {
+getCommute() {
   axios
-    .post(`api/address`)
+    .get(`api/commute`)
     .then(res => {
       console.log(res.data)
       this.setState({
-        data: res.data
+        toSchool: res.data
       })
     })
+
     .catch(err => console.log(err))
 }
 
 
 render(){
+  const routes = this.state.toSchool;
   return(
-    <div>{this.state.data}</div>
+    <Row>
+      <Container>
+        
+      <h3><FaCar style={{verticalAlign: 'center', color: 'magenta'}} /> Drive to School</h3>
+
+      </Container>
+
+      {routes.map((route, i) => (
+        <Col xs={12} key={i}>
+          <Row className='text-secondary'>
+            <Col xs={8}>
+          {route.summary}
+            </Col>
+            <Col xs={4}>
+              {route.legs[0].duration.text}
+            </Col>
+          </Row>
+        </Col>
+      ))}
+    </Row>
+
+
   )
 }
 }

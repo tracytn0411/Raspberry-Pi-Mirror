@@ -5,8 +5,6 @@
   "dependencies": {
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
-    "electron": "^7.1.2",
-    "electron-is-dev": "^1.1.0",
     "google-maps-react": "^2.0.2",
     "http-proxy-middleware": "^0.20.0",
     "moment": "^2.24.0",
@@ -16,13 +14,9 @@
     "react-dom": "^16.11.0",
     "react-icons": "^3.8.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
-    "react-skycons": "^0.7.0",
-    "skycons": "^1.0.0"
+    "react-scripts": "3.2.0"
   },
-  "main": "public/electron.js",
   "scripts": {
-    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

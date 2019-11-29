@@ -6,6 +6,7 @@ var path = require("path");
 var PORT = process.env.PORT || 5000;
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var moment = require('moment');
 const axios = require("axios");
 
 // Initialize Express
@@ -87,17 +88,35 @@ app.get("/api/geo", (req, res) => {
     .asPromise()
     .then(res => {
       var geo = res.json.location;
-      console.log(geo);
-      var currentLocation = { type: "Point", coordinates: [geo.lng, geo.lat] };
+      //console.log(geo);
+      var lng = geo.lng;
+      var lat = geo.lat;
+      console.log(lng, lat);
+      googleMapsClient
+        .reverseGeocode({ latlng: [lat, lng] })
+        .asPromise()
+        .then(res => {
+          var data = res.json.results[0].address_components;
+          console.log(JSON.stringify(data));
+          var currentCity = data[2].long_name
+          var currentState = data[4].short_name
+          //res.send(data)
+          var currentLocation = { type: "Point", coordinates: [lng, lat] };
 
-      Location.findOneAndUpdate(
-        { name: "Current" },
-        { location: currentLocation },
-        function(err, doc) {
-          if (err) console.log(`Mongoose geo err: ${err}`);
-          else console.log(`Updated!`);
-        }
-      );
+          Location.findOneAndUpdate(
+            { name: "Current" },
+            { location: currentLocation, city: currentCity, state: currentState },
+            function(err, doc) {
+              if (err) console.log(`Mongoose geo err: ${err}`);
+              else {
+                console.log(`Updated!`);
+              }
+            }
+          );
+        })
+        .catch(err => {
+          console.log(`Api ReverseGeo err: ${err}`);
+        });
     })
     .catch(err => {
       console.log(`Api Geo current location err: ${err}`);
@@ -140,6 +159,29 @@ app.post("/api/commute", (req, res) => {
     });
 });
 
+// API to get commute info
+app.get('/api/commute', (req, res) => {
+
+  var homeLocation = [38.3112914,-122.4890685]
+  var workLocation = [37.7913654,-122.3937412]
+
+  var currentTime = moment().unix()
+  console.log(currentTime)
+  googleMapsClient
+    .directions({origin: homeLocation, destination: workLocation, departure_time: currentTime, alternatives: true})
+    .asPromise()
+    .then(response => {
+      //var data = JSON.stringify(response.json.routes)
+      var data = response.json.routes
+      //var routes = data[1]
+      console.log(data)
+      res.json(data)
+    })
+    .catch(err => {
+      console.log(`Api get commute err: ${err}`)
+    })
+})
+
 //API to get weather forecast
 app.get("/api/forecast", (req, res) => {
   Location.findOne({ name: "Current" }, (err, data) => {
@@ -148,6 +190,8 @@ app.get("/api/forecast", (req, res) => {
       var location = data.location.coordinates;
       var lng = data.location.coordinates[0];
       var lat = data.location.coordinates[1];
+      var city = data.city
+      var state = data.state
       console.log(location);
 
       var darkskyUrl = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${lat},${lng}`;
@@ -155,9 +199,17 @@ app.get("/api/forecast", (req, res) => {
       axios
         .get(darkskyUrl)
         .then(forecast => {
-          var daily = forecast.data.daily.data;
-          //console.log(daily)
-          res.json(daily);
+          var daily = forecast.data.daily.data.slice(1)
+          var currently = forecast.data.currently;
+          var currentIcon = currently.icon.replace(/-/g, "_").toUpperCase()
+          console.log(currentIcon)
+          res.json({
+            daily: daily,
+            current: currently,
+            currentIcon: currentIcon,
+            currentCity: city,
+            currentState: state
+          });
         })
         .catch(error => {
           console.log(`Dark Sky error: ${error}`);
