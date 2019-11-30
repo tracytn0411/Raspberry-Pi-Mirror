@@ -18,15 +18,15 @@ code {
   }
 }
 
-.App {
+/* .App {
   background-color: #282c34;
-  /* min-height: 100vh; */
+  min-height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
 @keyframes App-logo-spin {
   from {
@@ -35,8 +35,4 @@ code {
   to {
     transform: rotate(360deg);
   }
-}
-
-.Moment-time {
-  font-size: 3rem;
 }

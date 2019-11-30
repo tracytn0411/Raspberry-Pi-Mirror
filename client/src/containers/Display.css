@@ -7,6 +7,7 @@
   width: calc(100% - 120px); */
   height: 100%;
   margin: 0;
+  padding: 30px;
   background: #000;
   color: white;
   font-family: "Roboto Condensed", sans-serif;
@@ -20,20 +21,27 @@
  margin-bottom: 1rem;
 }
 
+/* TOP-RIGHT*/
 .Weather-row .col-2 {
   padding: 0;
 }
+
 .Weather-row .col-2 canvas {
   width: 7rem;
   height: 7rem;
+  padding: 0;
 }
-.Weather-row .col-3 {
-  font-size: 4rem;
+.Weather-row .col-2 {
+  font-size: 3.8rem;
 }
 
 .Weather-info {
-  border-bottom: gray 0.05rem solid;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.Forecast-row {
+ max-height: 13rem;
+ overflow: hidden;
 }
 
 .Forecast-location {
@@ -46,6 +54,28 @@
   margin-bottom: 0;
 }
 
-.Forecast-day .col-2 canvas {
+.Forecast-day {
+  font-size: 1.3rem;
+}
+
+.Forecast-day .col-1 canvas {
   width: 2rem;
+}
+
+
+/* TOP LEFT */
+
+.Moment-time {
+  font-size: 4rem;
+}
+
+
+/*===========CUSTOM===========*/
+
+/*Commute*/
+
+.Custom-Box .row {
+  border: solid 0.1rem lightslategray;
+  margin: 1rem;
+  padding: 1rem;
 }

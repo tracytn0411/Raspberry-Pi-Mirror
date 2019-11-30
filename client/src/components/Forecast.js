@@ -5,7 +5,7 @@ import moment from "moment";
 import ReactAnimatedWeather from "react-animated-weather";
 import { WiStrongWind, WiHumidity } from "react-icons/wi";
 
-import "../containers/HomePage.css";
+import "../containers/Display.css";
 
 class Forecast extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class Forecast extends Component {
     return (
       <>
         <Row className="Weather-row justify-content-end text-center align-items-center text-right">
-          <Col xs={6} className="Weather-info">
+          <Col xs={4} className="Weather-info">
             <Row>
               <Col>
                 <WiStrongWind />
@@ -64,13 +64,13 @@ class Forecast extends Component {
               <Col xs={2}>
                 <ReactAnimatedWeather icon={icon} color="white" />
               </Col>
-              <Col xs={3}>{Math.round(today.apparentTemperature)}&deg;</Col>
+              <Col xs={2}>{Math.round(today.apparentTemperature)}&deg;</Col>
             </Row>
           </Col>
         </Row>
 
         <Row className="Forecast-row justify-content-end text-center align-items-center">
-          <Col xs={6} className="Forecast-location d-flex">
+          <Col xs={4} className="Forecast-location d-flex">
             <div className="mr-auto p-0">Forecast</div>
             <div>{city}, </div>
             <div>{state}</div>
@@ -83,16 +83,16 @@ class Forecast extends Component {
                   {moment.unix(forecast.time).format("ddd")}
                 </Col>
                 {/* <Col xs={3} className="p-0">{() => this.setIcon(i)}</Col> */}
-                <Col xs={2} className="p-0">
+                <Col xs={1} className="p-0">
                   <ReactAnimatedWeather
                     icon={forecast.icon.replace(/-/g, "_").toUpperCase()}
                     color="white"
                   />
                 </Col>
-                <Col xs={1} className="p-0">
+                <Col xs={1} className="p-0 tempHigh">
                   {Math.round(forecast.temperatureHigh)}&deg;
                 </Col>
-                <Col xs={1} className="p-0">
+                <Col xs={1} className="p-0 tempLow">
                   {Math.round(forecast.temperatureLow)}&deg;
                 </Col>
               </Row>

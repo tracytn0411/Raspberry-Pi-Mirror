@@ -15,22 +15,22 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      homeInput: "",
-      workInput: ""
+      nameInput: "",
+      addressInput: ""
     };
-    this.handleHomeChange = this.handleHomeChange.bind(this);
-    this.handleWorkChange = this.handleWorkChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleAddressChange = this.handleAddressChange.bind(this);
   }
 
-  handleHomeChange(homeInput) {
+  handleNameChange(nameInput) {
     this.setState({
-      homeInput: homeInput
+      nameInput: nameInput
     });
   }
 
-  handleWorkChange(workInput) {
+  handleAddressChange(addressInput) {
     this.setState({
-      workInput: workInput
+      addressInput: addressInput
     });
   }
   render() {
@@ -56,18 +56,19 @@ class HomePage extends Component {
         <Container fluid>
           <Row>
             <Col xs={6} className="HomePage-Custom">
-              <Custom
-                homeInput={this.state.homeInput}
-                workInput={this.state.workInput}
-                onHomeChange={this.handleHomeChange}
-                onWorkChange={this.handleWorkChange}
-              />
             </Col>
             <Col xs={6}>
-              {/* <Container className="HomePage-Display">
-                <Display style={{width: 100, height: 50}}/>
-              </Container> */}
-            
+              <Row>
+                <Col xs={12}>
+              <Custom
+                nameInput={this.state.nameInput}
+                addressInput={this.state.addressInput}
+                onNameChange={this.handleNameChange}
+                onAddressChange={this.handleAddressChange}
+              />
+
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Container>

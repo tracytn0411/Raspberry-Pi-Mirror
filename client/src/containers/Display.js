@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from 'react-router-dom'
 
 import Moment from "../components/Moment";
 //import Weather from "../components/Weather";
@@ -11,28 +12,29 @@ import Commute from "../components/Commute";
 function Display() {
   return (
     <Container fluid className="Display-Container">
-      <Row className="Moment">
-        <Col>
+      <Row className="Display-Top">
+        <Col className='Top-Left'>
           <Moment />
+          <Link to='/' className='btn btn-secondary'></Link>
         </Col>
-        <Col className="Forecast text-right">
+        <Col className="Top-Right text-right">
           <Forecast />
-
           {/* <Weather /> */}
         </Col>
       </Row>
+
       <Row className="Calendar">
         <Col>
           <p>Calendar API goes here</p>
         </Col>
         <Col className="text-right"></Col>
       </Row>
-      <Row className="News mt-auto">
-        <Col>
+
+      <Row className="Display-Bottom mt-auto">
+        <Col className='Bottom-Left'>
           <News />
         </Col>
-        <Col className="Geo text-right">
-          <p>Google Geo API goes here</p>
+        <Col className="Bottom-Right text-right">
           <Commute />
           {/* <Map /> */}
         </Col>

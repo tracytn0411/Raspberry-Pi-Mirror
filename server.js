@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, "client/build"))); //frontend code
 //Connect to MongoDB
 const mongoose = require("mongoose");
 const Location = require("./models/geo");
+const Commute = require('./models/commute')
 //const dbURI = "mongodb://localhost:27017/raspi_mirror";
 const dbURI = process.env.MONGODB_MIRROR_URI;
 
@@ -37,6 +38,7 @@ db.on("error", function(error) {
 db.once("open", function() {
   console.log("Mongoose connection successfully.");
 });
+
 
 // Direct to homepage
 app.get("/", (req, res) => {
@@ -74,6 +76,7 @@ app.get("/api/news", (req, res) => {
 });
 
 //========================= Google Maps ========================//
+
 
 // Create client object for Google API
 const googleMapsClient = require("@google/maps").createClient({
@@ -123,39 +126,90 @@ app.get("/api/geo", (req, res) => {
     });
 });
 
+// function getGeo() {
+//   Location.findOne({ name: 'Current'}, (err, data) => {
+//     if(err) console.log(`Mongoose location error: ${err}`)
+//     else {
+//       location = data.location.coordinates;
+//       lng = data.location.coordinates[0];
+//       lat = data.location.coordinates[1];
+//       city = data.city
+//       state = data.state
+//     }
+//    })
+// }
+
 // Api to take user's commute address, use geocoding to convert and save to MongoDB
-app.post("/api/commute", (req, res) => {
-  var homeAddress = req.body.home;
-  console.log(homeAddress);
-  googleMapsClient
-    .geocode({ address: homeAddress })
+app.post("/api/commute", async (req, res) => {
+  var newName = req.body.name;
+  var newAddress = req.body.address;
+  console.log(newAddress);
+
+  //Convert input commute address to geolocation
+  await googleMapsClient
+    .geocode({ address: newAddress })
     .asPromise()
     .then(response => {
       var data = response.json.results[0].geometry.location;
-      var destination = { type: "Point", coordinates: [data.lng, data.lat] };
+      console.log(data);
+      var commuteLng = data.lng;
+      var commuteLat = data.lat;
+      var commuteLocation = [commuteLat, commuteLng];
+      //Get current Location 
+      Location.findOne({ name: "Current" }, (err, data) => {
+        if (err) console.log(`Test error: ${err}`);
+        else {
+          var currentLocation = [
+            data.location.coordinates[1],
+            data.location.coordinates[0]
+          ];
+          var currentTime = moment().unix();
 
-      Location.create({ name: "Home", location: destination });
-      console.log(response.json.results);
+          //Get directions between new input commute and current location
+          googleMapsClient
+            .directions({
+              origin: currentLocation,
+              destination: commuteLocation,
+              departure_time: currentTime,
+              alternatives: true
+            })
+            .asPromise()
+            .then(async response => {
+              var routes = response.json.routes; //routes is an array (options of routes to take)
+              console.log(routes);
+
+              var destination = {
+                type: "Point",
+                coordinates: [commuteLat, commuteLng]
+              };
+
+              //Create new mongodb collection for each new commute address, with subdoc that is the array of routes
+              const poi = new Commute({ name: newName, location: destination });
+              poi.directions = []
+              routes.forEach(route =>
+                poi.directions.push(
+                  {
+                    summary: route.summary,
+                    driveTime: route.legs[0].duration.text
+                  }
+                )
+              );
+              await poi.save((err, doc) => {
+                if (err) console.log(`poi save error: ${err}`);
+                else console.log(doc);
+              });
+            })
+            .catch(err => {
+              console.log(
+                `Save new routes to mongoDB error: ${JSON.stringify(err)}`
+              );
+            });
+        }
+      });
       res.json(data);
     })
     .catch(err => {
-      console.log(`Api Commute from home err: ${err}`);
-    });
-
-  var workAddress = req.body.work;
-  googleMapsClient
-    .geocode({ address: workAddress })
-    .asPromise()
-    .then(response => {
-      var data = response.json.results[0].geometry.location;
-      var destination = { type: "Point", coordinates: [data.lng, data.lat] };
-
-      Location.create({ name: "Work", location: destination });
-      console.log(response.json.results);
-      res.json(data);
-    })
-    .catch(err => {
-      console.log(`Api Commute to work err: ${err}`);
+      console.log(`Api Commute post err: ${err}`);
     });
 });
 
@@ -198,12 +252,12 @@ app.get("/api/forecast", (req, res) => {
       console.log(darkskyUrl);
       axios
         .get(darkskyUrl)
-        .then(forecast => {
+        .then(async forecast => {
           var daily = forecast.data.daily.data.slice(1)
           var currently = forecast.data.currently;
           var currentIcon = currently.icon.replace(/-/g, "_").toUpperCase()
           console.log(currentIcon)
-          res.json({
+           res.json({
             daily: daily,
             current: currently,
             currentIcon: currentIcon,
