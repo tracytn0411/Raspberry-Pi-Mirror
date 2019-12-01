@@ -8,10 +8,15 @@ const commuteSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Location'
   },
+  address: String,
   directions: [{
     summary: String,
     driveTime: String
   }],
+  timeStamp: {
+    type: Date,
+    default: Date.now()
+  },
   location: {
     type: {
       type: String, // Don't do `{ location: { type: String } }`
