@@ -6,7 +6,7 @@ var path = require("path");
 var PORT = process.env.PORT || 5000;
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
-var moment = require('moment');
+var moment = require("moment");
 const axios = require("axios");
 
 // Initialize Express
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "client/build"))); //frontend code
 //Connect to MongoDB
 const mongoose = require("mongoose");
 const Location = require("./models/geo");
-const Commute = require('./models/commute')
+const Commute = require("./models/commute");
 //const dbURI = "mongodb://localhost:27017/raspi_mirror";
 const dbURI = process.env.MONGODB_MIRROR_URI;
 
@@ -38,7 +38,6 @@ db.on("error", function(error) {
 db.once("open", function() {
   console.log("Mongoose connection successfully.");
 });
-
 
 // Direct to homepage
 app.get("/", (req, res) => {
@@ -77,7 +76,6 @@ app.get("/api/news", (req, res) => {
 
 //========================= Google Maps ========================//
 
-
 // Create client object for Google API
 const googleMapsClient = require("@google/maps").createClient({
   key: process.env.GEOLOCATION_API_KEY,
@@ -101,14 +99,18 @@ app.get("/api/geo", (req, res) => {
         .then(res => {
           var data = res.json.results[0].address_components;
           console.log(JSON.stringify(data));
-          var currentCity = data[2].long_name
-          var currentState = data[4].short_name
+          var currentCity = data[2].long_name;
+          var currentState = data[4].short_name;
           //res.send(data)
           var currentLocation = { type: "Point", coordinates: [lng, lat] };
 
           Location.findOneAndUpdate(
             { name: "Current" },
-            { location: currentLocation, city: currentCity, state: currentState },
+            {
+              location: currentLocation,
+              city: currentCity,
+              state: currentState
+            },
             function(err, doc) {
               if (err) console.log(`Mongoose geo err: ${err}`);
               else {
@@ -126,19 +128,6 @@ app.get("/api/geo", (req, res) => {
     });
 });
 
-// function getGeo() {
-//   Location.findOne({ name: 'Current'}, (err, data) => {
-//     if(err) console.log(`Mongoose location error: ${err}`)
-//     else {
-//       location = data.location.coordinates;
-//       lng = data.location.coordinates[0];
-//       lat = data.location.coordinates[1];
-//       city = data.city
-//       state = data.state
-//     }
-//    })
-// }
-
 // Api to take user's commute address, use geocoding to convert and save to MongoDB
 app.post("/api/commute", async (req, res) => {
   var newName = req.body.name;
@@ -151,11 +140,12 @@ app.post("/api/commute", async (req, res) => {
     .asPromise()
     .then(response => {
       var data = response.json.results[0].geometry.location;
-      console.log(data);
+      var fullAddress = response.json.results[0].formatted_address;
+      console.log(fullAddress);
       var commuteLng = data.lng;
       var commuteLat = data.lat;
       var commuteLocation = [commuteLat, commuteLng];
-      //Get current Location 
+      //Get current Location
       Location.findOne({ name: "Current" }, (err, data) => {
         if (err) console.log(`Test error: ${err}`);
         else {
@@ -184,19 +174,22 @@ app.post("/api/commute", async (req, res) => {
               };
 
               //Create new mongodb collection for each new commute address, with subdoc that is the array of routes
-              const poi = new Commute({ name: newName, location: destination });
-              poi.directions = []
+              const poi = new Commute({
+                name: newName,
+                address: fullAddress,
+                location: destination
+              });
+              poi.directions = [];
               routes.forEach(route =>
-                poi.directions.push(
-                  {
-                    summary: route.summary,
-                    driveTime: route.legs[0].duration.text
-                  }
-                )
+                poi.directions.push({
+                  summary: route.summary,
+                  driveTime: route.legs[0].duration.text
+                })
               );
               await poi.save((err, doc) => {
                 if (err) console.log(`poi save error: ${err}`);
-                else console.log(doc);
+                //else console.log(doc);
+                else res.json(doc);
               });
             })
             .catch(err => {
@@ -206,7 +199,6 @@ app.post("/api/commute", async (req, res) => {
             });
         }
       });
-      res.json(data);
     })
     .catch(err => {
       console.log(`Api Commute post err: ${err}`);
@@ -214,27 +206,24 @@ app.post("/api/commute", async (req, res) => {
 });
 
 // API to get commute info
-app.get('/api/commute', (req, res) => {
+app.get("/api/commute", (req, res) => {
+  Commute.find({})
+    .sort({ timeStamp: 1 })
+    .exec((error, doc) => {
+      if (error) console.log(`Mongoose get commute error: ${error}`);
+      else res.json(doc);
+    });
+});
 
-  var homeLocation = [38.3112914,-122.4890685]
-  var workLocation = [37.7913654,-122.3937412]
-
-  var currentTime = moment().unix()
-  console.log(currentTime)
-  googleMapsClient
-    .directions({origin: homeLocation, destination: workLocation, departure_time: currentTime, alternatives: true})
-    .asPromise()
-    .then(response => {
-      //var data = JSON.stringify(response.json.routes)
-      var data = response.json.routes
-      //var routes = data[1]
-      console.log(data)
-      res.json(data)
-    })
-    .catch(err => {
-      console.log(`Api get commute err: ${err}`)
-    })
-})
+// API to delete commute from list
+app.delete("/api/commute/:id", (req, res) => {
+  Commute.findByIdAndRemove({ _id: req.params.id }).exec((err, doc) => {
+    if (err) return console.log(`MongoDB delete commute ERROR: ${err}`);
+    else {
+      console.log(`Deleted address: ${doc}`);
+    }
+  });
+});
 
 //API to get weather forecast
 app.get("/api/forecast", (req, res) => {
@@ -244,8 +233,8 @@ app.get("/api/forecast", (req, res) => {
       var location = data.location.coordinates;
       var lng = data.location.coordinates[0];
       var lat = data.location.coordinates[1];
-      var city = data.city
-      var state = data.state
+      var city = data.city;
+      var state = data.state;
       console.log(location);
 
       var darkskyUrl = `https://api.darksky.net/forecast/${process.env.DARKSKY_API_KEY}/${lat},${lng}`;
@@ -253,11 +242,11 @@ app.get("/api/forecast", (req, res) => {
       axios
         .get(darkskyUrl)
         .then(async forecast => {
-          var daily = forecast.data.daily.data.slice(1)
+          var daily = forecast.data.daily.data.slice(1);
           var currently = forecast.data.currently;
-          var currentIcon = currently.icon.replace(/-/g, "_").toUpperCase()
-          console.log(currentIcon)
-           res.json({
+          var currentIcon = currently.icon.replace(/-/g, "_").toUpperCase();
+          console.log(currentIcon);
+          res.json({
             daily: daily,
             current: currently,
             currentIcon: currentIcon,

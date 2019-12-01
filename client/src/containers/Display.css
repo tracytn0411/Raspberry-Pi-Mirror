@@ -44,9 +44,12 @@
  overflow: hidden;
 }
 
-.Forecast-location {
-  border-bottom: blue 0.1rem solid;
+.Forecast-headline,
+.Commute-headline {
+  border-bottom: dodgerblue 0.05rem solid;
   margin-bottom: 0.7rem;
+  padding:0;
+  color: dodgerblue;
 }
 
 .Forecast-location div {
@@ -62,6 +65,12 @@
   width: 2rem;
 }
 
+.Forecast-day .tempHigh{
+  color: peru;
+}
+.Forecast-day .tempLow{
+  color: lightskyblue;
+}
 
 /* TOP LEFT */
 
@@ -69,13 +78,18 @@
   font-size: 4rem;
 }
 
+/*BOTTOM RIGHT*/
+.Route-row {
+  font-size: 1.4rem;
+}
+
 
 /*===========CUSTOM===========*/
 
 /*Commute*/
 
-.Custom-Box .row {
+/* .Custom-Box .row {
   border: solid 0.1rem lightslategray;
   margin: 1rem;
   padding: 1rem;
-}
+} */

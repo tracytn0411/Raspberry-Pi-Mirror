@@ -45,22 +45,22 @@ class Forecast extends Component {
 
     return (
       <>
-        <Row className="Weather-row justify-content-end text-center align-items-center text-right">
+        <Row className="Weather-row justify-content-end text-center align-items-center">
           <Col xs={4} className="Weather-info">
             <Row>
               <Col>
-                <WiStrongWind />
+                <WiStrongWind style={{color: "cyan" }}/>
                 {today.windSpeed}
               </Col>
               <Col>
-                <WiHumidity />
+                <WiHumidity style={{color: "cyan" }} />
                 {today.humidity}
               </Col>
             </Row>
           </Col>
 
           <Col xs={12}>
-            <Row className="Weather-icon justify-content-end text-center align-items-center text-right">
+            <Row className="Weather-icon justify-content-end text-center align-items-center">
               <Col xs={2}>
                 <ReactAnimatedWeather icon={icon} color="white" />
               </Col>
@@ -70,7 +70,7 @@ class Forecast extends Component {
         </Row>
 
         <Row className="Forecast-row justify-content-end text-center align-items-center">
-          <Col xs={4} className="Forecast-location d-flex">
+          <Col xs={6} className="Forecast-headline d-flex">
             <div className="mr-auto p-0">Forecast</div>
             <div>{city}, </div>
             <div>{state}</div>
