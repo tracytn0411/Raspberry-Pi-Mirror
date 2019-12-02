@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Roboto:300,400,500&display=swap');
+
+.Display-Container {
+  /* margin: 50px;
+  position: absolute; */
+  /* height: calc(100% - 120px);
+  width: calc(100% - 120px); */
+  height: 100%;
+  margin: 0;
+  padding: 30px;
+  background: #000;
+  color: white;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card {
+ margin-bottom: 1rem;
+}
+
+/* TOP-RIGHT*/
+.Weather-row .col-2 {
+  padding: 0;
+}
+
+.Weather-row .col-2 canvas {
+  width: 7rem;
+  height: 7rem;
+  padding: 0;
+}
+.Weather-row .col-2 {
+  font-size: 3.8rem;
+}
+
+.Weather-info {
+  margin-bottom: 0.5rem;
+}
+
+.Forecast-row {
+ max-height: 13rem;
+ overflow: hidden;
+}
+
+.Forecast-headline,
+.Commute-headline {
+  border-bottom: dodgerblue 0.05rem solid;
+  margin-bottom: 0.7rem;
+  padding:0;
+  color: dodgerblue;
+}
+
+.Forecast-location div {
+  text-align: start;
+  margin-bottom: 0;
+}
+
+.Forecast-day {
+  font-size: 1.3rem;
+}
+
+.Forecast-day .col-1 canvas {
+  width: 2rem;
+}
+
+.Forecast-day .tempHigh{
+  color: peru;
+}
+.Forecast-day .tempLow{
+  color: lightskyblue;
+}
+
+/* TOP LEFT */
+
+.Moment-time {
+  font-size: 4rem;
+}
+
+/*BOTTOM RIGHT*/
+.Route-row {
+  font-size: 1.4rem;
+}
+
+
+/*===========CUSTOM===========*/
+
+/*Commute*/
+
+/* .Custom-Box .row {
+  border: solid 0.1rem lightslategray;
+  margin: 1rem;
+  padding: 1rem;
+} */
