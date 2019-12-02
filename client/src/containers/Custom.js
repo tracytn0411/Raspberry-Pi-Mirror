@@ -8,6 +8,10 @@ import CommuteDelete from "../components/CommuteDelete";
 class Custom extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      currentGeo: {}
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
@@ -15,11 +19,30 @@ class Custom extends Component {
     this.deleteCommute = this.deleteCommute.bind(this);
   }
 
+  componentDidMount(){
+    this.getGeo()
+  }
+
+  getGeo(){
+    axios
+      .get('api/geo')
+      .then(res => {
+        this.setState({
+          currentGeo: res.data
+        })
+      })
+  }
+
   handleGeoUpdate(e) {
     e.preventDefault();
     axios
-      .get("api/geo")
-      .then(res => console.log(res.data))
+      .post("api/geo")
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          currentGeo: res.data
+        });
+      })
       .catch(err =>
         console.log(`API geo to get current location error: ${err}`)
       );
@@ -59,13 +82,23 @@ class Custom extends Component {
 
   render() {
     const commuteList = this.props.commuteList;
+    const { currentGeo } = this.state;
     return (
       <div className="Custom-Box">
         <Card>
           <Card.Body>
-            <Button variant="info" onClick={this.handleGeoUpdate}>
-              Update current location
-            </Button>
+            <Row>
+              <Col md={4}>
+                <Button variant="info" onClick={this.handleGeoUpdate}>
+                  Update current location
+                </Button>
+              </Col>
+              <Col>
+                <p>
+                  Your current location is {currentGeo.city}, {currentGeo.state}.
+                </p>{" "}
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
 
@@ -106,7 +139,7 @@ class Custom extends Component {
                 Add
               </Button>
             </Form>
-            
+
             <ListGroup variant="flush">
               {commuteList.map(commute => (
                 <ListGroup.Item key={commute._id}>

@@ -70,7 +70,7 @@ class HomePage extends Component {
   render() {
     return (
       <>
-        <Navbar expand="lg">
+        <Navbar bg='light' expand="lg">
           <Navbar.Brand href="/">React Smart Mirror</Navbar.Brand>
           <Nav className="mr-auto px-3">
             <Nav.Item className="px-2">

@@ -83,21 +83,22 @@ const googleMapsClient = require("@google/maps").createClient({
 });
 
 // Api to get current geolocation, then add to MongoDB
-app.get("/api/geo", (req, res) => {
+app.post("/api/geo", (req, res) => {
   googleMapsClient
     .geolocate({})
     .asPromise()
-    .then(res => {
-      var geo = res.json.location;
+    .then(response => {
+      var geo = response.json.location;
       //console.log(geo);
       var lng = geo.lng;
       var lat = geo.lat;
       console.log(lng, lat);
+      //Use reversegeo to get address
       googleMapsClient
         .reverseGeocode({ latlng: [lat, lng] })
         .asPromise()
-        .then(res => {
-          var data = res.json.results[0].address_components;
+        .then(response => {
+          var data = response.json.results[0].address_components;
           console.log(JSON.stringify(data));
           var currentCity = data[2].long_name;
           var currentState = data[4].short_name;
@@ -114,7 +115,8 @@ app.get("/api/geo", (req, res) => {
             function(err, doc) {
               if (err) console.log(`Mongoose geo err: ${err}`);
               else {
-                console.log(`Updated!`);
+                console.log(`Updated!`)
+                res.json(doc);
               }
             }
           );
@@ -127,6 +129,13 @@ app.get("/api/geo", (req, res) => {
       console.log(`Api Geo current location err: ${err}`);
     });
 });
+
+app.get('/api/geo', (req,res) => {
+  Location.findOne({name: "Current"}, (err, doc) => {
+    if (err) console.log(`Mongoose get geo err: ${err}`)
+    else res.json(doc)
+  })
+})
 
 // Api to take user's commute address, use geocoding to convert and save to MongoDB
 app.post("/api/commute", async (req, res) => {
