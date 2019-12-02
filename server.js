@@ -28,11 +28,10 @@ mongoose.connect(dbURI, {
   //to get rid of terminal deprecationwarning
   useCreateIndex: true,
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
+  useUnifiedTopology: true
 });
 var db = mongoose.connection;
-db.on("error", function(error) {
+db.on("error", function (error) {
   console.log("Database Error:", error);
 });
 db.once("open", function() {

@@ -1,44 +1,41 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import moment from "moment";
-import { Row, Col } from "react-bootstrap";
-import "../containers/Display.css";
 
 class Moment extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props){
+    super(props)
     this.state = {
       //time: new Date()
-      date: moment().format("dddd, MMM D, YYYY"),
-      time: moment().format("h:mm a")
-    };
+      date: moment().format('dddd, MMMM D, YYYY'),
+      time: moment().format('h:mm:ss a')
+
+    }
   }
 
-  // Update timer display every minute
+  // Update timer display every second
   componentDidMount() {
     this.timerID = setInterval(() => {
-      this.tick();
-    }, 60000);
+      this.tick()
+    }, 1000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    clearInterval(this.timerID)
   }
 
   tick() {
     this.setState({
-      date: moment().format("dddd, MMM D, YYYY"),
-      time: moment().format("h:mm a")
-    });
+      date: moment().format('dddd, MMMM D, YYYY'),
+      time: moment().format('h:mm:ss a')
+    })
   }
 
   render() {
     return (
-      <Row>
-        <Col xs={12}>{this.state.date}</Col>
-        <Col xs={12}>
-          <div className="Moment-time">{this.state.time}</div>
-        </Col>
-      </Row>
+      <>
+        <div>{this.state.date}</div>
+        <div className='Moment-time'>{this.state.time}</div>
+      </>
     );
   }
 }
