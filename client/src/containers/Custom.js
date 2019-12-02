@@ -87,16 +87,14 @@ class Custom extends Component {
       <div className="Custom-Box">
         <Card>
           <Card.Body>
-            <Row>
+            <Row className='Custom-Geo align-items-center'>
               <Col md={4}>
                 <Button variant="info" onClick={this.handleGeoUpdate}>
                   Update current location
                 </Button>
               </Col>
               <Col>
-                <p>
-                  Your current location is {currentGeo.city}, {currentGeo.state}.
-                </p>{" "}
+                  Your current location is <span className='font-italic font-weight-bold'>{currentGeo.city}, {currentGeo.state}</span>.
               </Col>
             </Row>
           </Card.Body>
@@ -140,10 +138,10 @@ class Custom extends Component {
               </Button>
             </Form>
 
-            <ListGroup variant="flush">
+            <ListGroup variant="flush" className='mt-3'>
               {commuteList.map(commute => (
                 <ListGroup.Item key={commute._id}>
-                  <Row>
+                  <Row className='Custom-CommuteList align-items-center'>
                     <Col xs={3}>{commute.name}</Col>
                     <Col xs={8}>{commute.address}</Col>
                     <Col xs={1}>

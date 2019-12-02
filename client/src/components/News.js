@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FaRegNewspaper } from "react-icons/fa";
+import { Row, Col } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment";
 
@@ -17,10 +19,7 @@ class News extends Component {
 
   componentDidMount() {
     // const result = getNews();
-    getNews()
-      .then( 
-        articles => this.setState({articles})
-      )
+    getNews().then(articles => this.setState({ articles }));
 
     setInterval(async () => {
       this.setState({
@@ -31,15 +30,19 @@ class News extends Component {
 
   render() {
     return (
-      <div key>
+      <Row key className='News-row'>
+        <Col xs={10} className="News-headline d-flex">
+          <div className="mr-auto p-0">News</div>
+        </Col>
         {this.state.articles.map((news, i) => {
           return (
-            <div key={i}>
-              <p>{news.title.replace(/-[^-]*$/, "").trim()}</p>
-            </div>
+            <Col xs={11} key={i}>
+              <p className='News-title text-truncate m-1'>
+                <FaRegNewspaper style={{color:'grey'}}/>{news.title.replace(/-[^-]*$/, "").trim()}</p>
+            </Col>
           );
         })}
-      </div>
+      </Row>
     );
   }
 }

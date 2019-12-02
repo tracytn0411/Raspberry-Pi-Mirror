@@ -6,8 +6,9 @@
   /* height: calc(100% - 120px);
   width: calc(100% - 120px); */
   height: 100%;
+  position: absolute;
   margin: 0;
-  padding: 30px;
+  padding: 10px;
   background: #000;
   color: white;
   font-family: "Roboto Condensed", sans-serif;
@@ -17,8 +18,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.Display-Left .row,
+.Display-Right .row {
+  margin: 0
+}
+
 .card {
  margin-bottom: 1rem;
+}
+
+.Left-Top {
+  height: 30%;
 }
 
 /* TOP-RIGHT*/
@@ -40,12 +50,13 @@
 }
 
 .Forecast-row {
- max-height: 13rem;
+ max-height: 18rem;
  overflow: hidden;
 }
 
 .Forecast-headline,
-.Commute-headline {
+.Commute-headline,
+.News-headline {
   border-bottom: dodgerblue 0.05rem solid;
   margin-bottom: 0.7rem;
   padding:0;
@@ -79,8 +90,21 @@
 }
 
 /*BOTTOM RIGHT*/
-.Route-row {
-  font-size: 1.4rem;
+.Commute-route {
+  font-size: 1.3rem;
+}
+
+.Commute-icon svg,
+.News-title svg {
+  padding: 0;
+  margin: 0.1rem 0.3rem 0.4rem
+ 
+}
+
+
+.News-title {
+  font-size: 1.3rem;
+  font-weight: 300;
 }
 
 

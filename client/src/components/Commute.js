@@ -38,17 +38,17 @@ class Commute extends Component {
           </Col>
         {commuteData.map(commute => (
           <Col xs={12} key={commute._id}>
-            <Row className="justify-content-end align-items-center pb-3">
+            <Row className="justify-content-end align-items-center py-2">
               <Col xs={6} className='p-0 text-left'>
-                <h3>
+                <h3 className='Commute-icon p-0 m-0'>
                   <FaCar style={{ verticalAlign: "center", color: "magenta" }} />
                   Drive to {commute.name}
                 </h3>
     
                 {commute.directions.map((route, i) => (
-                  <Row className="Route-row justify-content-end align-items-center" key={i}>
-                    <Col xs={5}>{route.summary}</Col>
-                    <Col xs={7} className='text-right'>{route.driveTime}</Col>
+                  <Row className="Commute-route justify-content-end align-items-center" key={i}>
+                    <Col xs={7} className='text-secondary'>{route.summary}</Col>
+                    <Col xs={5} className='text-right'>{route.driveTime}</Col>
                   </Row>
                 ))}
               </Col>
