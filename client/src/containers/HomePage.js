@@ -32,12 +32,15 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.getCommute();
-    //this.getUser();
+    this.getUser();
   }
 
-  // getUser() {
-  //   const user = localStorage.getItem("user");
-  // }
+  getUser() {
+    const user = localStorage.getItem("jwt");
+    this.setState({
+      user: user
+    })
+  }
 
   getCommute() {
     axios
@@ -82,23 +85,12 @@ class HomePage extends Component {
     });
   }
 
-  logout(event) {
+  logout = (event) => {
     event.preventDefault();
-    fetch("api/logout", {
-      method: 'POST',
-      credentials: 'same-origin',
+    localStorage.removeItem('jwt');
+    this.setState({ user: ''}, () => {
+      this.props.history.push('/login')
     })
-      .then(res => {
-        if (res.status === 200) {
-          this.props.history.push('/login');
-        } else {
-          const error = new Error(res.error);
-          throw error;
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 
   render() {
@@ -127,8 +119,7 @@ class HomePage extends Component {
               <Row>
                 <Col>
                   <Form onSubmit={this.logout}>
-                    {" "}
-                    <Button>Log Out</Button>
+                    <Button type='submit' value='Submit'>Log Out</Button>
                   </Form>
                 </Col>
               </Row>

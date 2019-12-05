@@ -31,6 +31,7 @@ class RegisterPage extends Component {
       }
     })
     .then(res => {
+      console.log(res.status)
       if(res.status === 200) {
         this.props.history.push('/login')
       }else{
@@ -47,11 +48,11 @@ class RegisterPage extends Component {
   render() {
     return (
       <Container>
-        <Row>
+        <Row className='Register-Box justify-content-center'>
           <Col md={6}>
             <Card>
               <Card.Body>
-                <Card.Title>
+                <Card.Title className='Register-title text-center '>
                   <h3>Create an account</h3>
                 </Card.Title>
                 <Form onSubmit={this.handleRegister}>
@@ -77,12 +78,12 @@ class RegisterPage extends Component {
                       onChange={this.handleInputChange}
                     />
                   </Form.Group>
-                  <Button variant="info" type="submit">
+                  <Button className='w-100' variant="info" type="submit">
                     Sign Up
                   </Button>
                 </Form>
               </Card.Body>
-              <Card.Footer>
+              <Card.Footer className='text-center'>
               <small>Have an account? <Link to='/login'>Login</Link> </small>
             </Card.Footer>
             </Card>

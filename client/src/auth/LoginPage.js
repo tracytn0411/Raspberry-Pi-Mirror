@@ -8,7 +8,9 @@ export default class LoginPage extends Component {
     super(props)
     this.state = {
       email : '',
-      password: ''
+      password: '',
+      token: '',
+      user: ''
     };
   }
 
@@ -21,21 +23,24 @@ export default class LoginPage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const email = this.state.email
+    const password = this.state.password
     fetch('/api/login', {
       method: 'POST',
-      body: JSON.stringify(this.state),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({email, password})
     })
-    .then(res => {
-      if (res.status === 200) {
-        this.props.history.push('/');
-      } else {
-        const error = new Error(res.error);
-        throw error;
-      }
+    .then(response => response.json())
+    .then(response => {
+
+      console.log(response)
+      this.setState({user: response.username}, ()=> {
+        localStorage.setItem('jwt', response.token)
+this.props.history.push('/')
+      })
     })
     .catch(err => {
       console.error(err);
@@ -46,11 +51,11 @@ export default class LoginPage extends Component {
   render() {
     return (
       <Container>
-      <Row>
+      <Row className='Login-Box justify-content-center'>
         <Col md={6}>
           <Card>
             <Card.Body>
-              <Card.Title>
+              <Card.Title className='Login-title text-center'>
                 <h3>Login</h3>
               </Card.Title>
               <Form onSubmit={this.handleSubmit}>
@@ -76,12 +81,12 @@ export default class LoginPage extends Component {
                     onChange={this.handleInputChange}
                   />
                 </Form.Group>
-                <Button variant="info" type="submit" value='Submit'>
+                <Button className='w-100' variant="info" type="submit" value='Submit'>
                   Login
                 </Button>
               </Form>
             </Card.Body>
-            <Card.Footer>
+            <Card.Footer className='text-center'>
               <small>Not a member? <Link to='/register'>Sign Up</Link> </small>
             </Card.Footer>
           </Card>

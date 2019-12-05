@@ -21,17 +21,14 @@ app.use(methodOverride("_method"));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build"))); //frontend code
 
-// For JWT
-console.log(process.env.JWT_SECRET);
-
 //Connect to MongoDB
 const mongoose = require("mongoose");
 const Location = require("./models/geo");
 const Commute = require("./models/commute");
 const User = require("./models/user");
 
-const dbURI = "mongodb://localhost:27017/raspi_mirror";
-//const dbURI = process.env.MONGODB_MIRROR_URI;
+//const dbURI = "mongodb://localhost:27017/raspi_mirror";
+const dbURI = process.env.MONGODB_MIRROR_URI;
 
 mongoose.connect(dbURI, {
   //to get rid of terminal deprecationwarning
@@ -87,6 +84,7 @@ app.get("/checkToken", verifyToken, function(req, res) {
 
 app.post("/api/login", function(req, res) {
   const { email, password } = req.body;
+  console.log(email, password)
   User.findOne({ email }, function(err, user) {
     if (err) {
       console.error(err);
@@ -113,6 +111,15 @@ app.post("/api/login", function(req, res) {
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "4h"
           });
+          console.log(token)
+          res.json({
+            username: email,
+            token: token
+          })
+          // res.json({
+          //   token: token,
+          //   message: 'successfully authenticated'
+          // })
 
           // return res.json({
           //   username: email,
@@ -121,18 +128,14 @@ app.post("/api/login", function(req, res) {
           // });
 
           //Another way: use cookie-parser
-          console.log(token);
-          res.cookie("token", token).sendStatus(200);
+          // console.log(token);
+          // res.cookie("jwt", token, {httpOnly: true, domain: 'localhost', path: '/'}).cookie('username',email).sendStatus(200);
         }
       });
     }
   });
 });
 
-app.post("/api/logout", (req, res) => {
-  res.clearCookie("token").sendStatus(200)
-
-});
 
 // Register new user
 app.post("/api/register", function(req, res) {
