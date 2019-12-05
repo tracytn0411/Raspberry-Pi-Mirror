@@ -3,11 +3,14 @@ require("newrelic");
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
+
 var PORT = process.env.PORT || 5000;
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var moment = require("moment");
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 // Initialize Express
 var app = express();
@@ -15,14 +18,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(methodOverride("_method"));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build"))); //frontend code
+
+// For JWT
+console.log(process.env.JWT_SECRET);
 
 //Connect to MongoDB
 const mongoose = require("mongoose");
 const Location = require("./models/geo");
 const Commute = require("./models/commute");
-//const dbURI = "mongodb://localhost:27017/raspi_mirror";
-const dbURI = process.env.MONGODB_MIRROR_URI;
+const User = require("./models/user");
+
+const dbURI = "mongodb://localhost:27017/raspi_mirror";
+//const dbURI = process.env.MONGODB_MIRROR_URI;
 
 mongoose.connect(dbURI, {
   //to get rid of terminal deprecationwarning
@@ -32,16 +41,111 @@ mongoose.connect(dbURI, {
   useFindAndModify: false
 });
 var db = mongoose.connection;
-db.on("error", function (error) {
+db.on("error", function(error) {
   console.log("Database Error:", error);
 });
 db.once("open", function() {
   console.log("Mongoose connection successfully.");
 });
 
+
+//============= JWT Authentication ===============//
+
+const verifyToken = function(req, res, next) {
+  const token =
+    req.body.token ||
+    req.query.token ||
+    req.headers["x-access-token"] ||
+    req.cookies.token;
+
+  if (!token) {
+    res.status(401).send("Unauthorized: No token provided");
+  } else {
+    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+      if (err) {
+        res.status(401).send("Unauthorized: Invalid token");
+      } else {
+        req.email = decoded.email;
+        next();
+      }
+    });
+  }
+};
+
 // Direct to homepage
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
+
+app.get("/api/secret", verifyToken, function(req, res) {
+  res.send("The password is potato");
+});
+
+app.get("/checkToken", verifyToken, function(req, res) {
+  res.sendStatus(200);
+});
+
+app.post("/api/login", function(req, res) {
+  const { email, password } = req.body;
+  User.findOne({ email }, function(err, user) {
+    if (err) {
+      console.error(err);
+      res.status(500).json({
+        error: "Internal error please try again"
+      });
+    } else if (!user) {
+      res.status(401).json({
+        error: "Incorrect email or password"
+      });
+    } else {
+      user.isCorrectPassword(password, function(err, same) {
+        if (err) {
+          res.status(500).json({
+            error: "Internal error please try again"
+          });
+        } else if (!same) {
+          res.status(401).json({
+            error: "Incorrect email or password"
+          });
+        } else {
+          // Issue token
+          const payload = { email };
+          const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "4h"
+          });
+
+          // return res.json({
+          //   username: email,
+          //   message: "successfully authenticated",
+          //   token: token
+          // });
+
+          //Another way: use cookie-parser
+          console.log(token);
+          res.cookie("token", token).sendStatus(200);
+        }
+      });
+    }
+  });
+});
+
+app.post("/api/logout", (req, res) => {
+  res.clearCookie("token").sendStatus(200)
+
+});
+
+// Register new user
+app.post("/api/register", function(req, res) {
+  const { email, password } = req.body;
+  const user = new User({ email, password });
+  user.save(function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error registering new user please try again.");
+    } else {
+      res.status(200).send("Welcome to the club!");
+    }
+  });
 });
 
 // Display weather page
@@ -115,7 +219,7 @@ app.post("/api/geo", (req, res) => {
             function(err, doc) {
               if (err) console.log(`Mongoose geo err: ${err}`);
               else {
-                console.log(`Updated!`)
+                console.log(`Updated!`);
                 res.json(doc);
               }
             }
@@ -130,12 +234,12 @@ app.post("/api/geo", (req, res) => {
     });
 });
 
-app.get('/api/geo', (req,res) => {
-  Location.findOne({name: "Current"}, (err, doc) => {
-    if (err) console.log(`Mongoose get geo err: ${err}`)
-    else res.json(doc)
-  })
-})
+app.get("/api/geo", (req, res) => {
+  Location.findOne({ name: "Current" }, (err, doc) => {
+    if (err) console.log(`Mongoose get geo err: ${err}`);
+    else res.json(doc);
+  });
+});
 
 // Api to take user's commute address, use geocoding to convert and save to MongoDB
 app.post("/api/commute", async (req, res) => {
