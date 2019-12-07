@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Navbar, Nav } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Navbar,
+  Nav,
+  Button,
+  Form
+} from "react-bootstrap";
 import Custom from "./Custom";
 import axios from "axios";
 //import Display from "./Display";
@@ -12,16 +20,26 @@ class HomePage extends Component {
     this.state = {
       nameInput: "",
       addressInput: "",
-      commuteData: []
+      commuteData: [],
+      user: ""
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleSubmitClicked = this.handleSubmitClicked.bind(this);
     this.deleteCommute = this.deleteCommute.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
     this.getCommute();
+    this.getUser();
+  }
+
+  getUser() {
+    const user = localStorage.getItem("jwt");
+    this.setState({
+      user: user
+    })
   }
 
   getCommute() {
@@ -67,10 +85,18 @@ class HomePage extends Component {
     });
   }
 
+  logout = (event) => {
+    event.preventDefault();
+    localStorage.removeItem('jwt');
+    this.setState({ user: ''}, () => {
+      this.props.history.push('/login')
+    })
+  }
+
   render() {
     return (
       <>
-        <Navbar bg='light' expand="lg">
+        <Navbar bg="light" expand="lg">
           <Navbar.Brand href="/">React Smart Mirror</Navbar.Brand>
           <Nav className="mr-auto px-3">
             <Nav.Item className="px-2">
@@ -89,7 +115,15 @@ class HomePage extends Component {
 
         <Container fluid>
           <Row>
-            <Col xs={6} className="HomePage-Custom"></Col>
+            <Col xs={6} className="HomePage-Custom">
+              <Row>
+                <Col>
+                  <Form onSubmit={this.logout}>
+                    <Button type='submit' value='Submit'>Log Out</Button>
+                  </Form>
+                </Col>
+              </Row>
+            </Col>
             <Col xs={6}>
               <Row>
                 <Col xs={12}>

@@ -38,7 +38,9 @@ class News extends Component {
           return (
             <Col xs={11} key={i}>
               <p className='News-title text-truncate m-1'>
-                <FaRegNewspaper style={{color:'grey'}}/>{news.title.replace(/-[^-]*$/, "").trim()}</p>
+                <FaRegNewspaper style={{color:'grey'}}/>{news.title.replace(/-[^-]*$/, "").trim()}
+              </p>
+              <p className='News-title text-truncate m-1' style={{fontStyle: 'italic'}}>- {news.source.name}</p>
             </Col>
           );
         })}
