@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"nodemon server.js\" \"cd client && npm run start\"",
     "electron-dev": "concurrently \"nodemon server.js\" \"cd client && npm run electron-dev\"",
+    "electron-pi": "concurrently \"node server.js\" \"cd client && npm run electron-dev\"",
     "pi": "concurrently \"node server.js\" \"cd client && npm run start\"",
     "start": "node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
