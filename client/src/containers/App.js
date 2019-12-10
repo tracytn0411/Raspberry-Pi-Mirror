@@ -7,6 +7,7 @@ import verifyToken from '../auth/verifyToken'
 import LoginPage from '../auth/LoginPage'
 import RegisterPage from '../auth/RegisterPage'
 import PrivateRoute from '../auth/PrivateRoute'
+import './App.css'
 class App extends Component {
   
   render(){

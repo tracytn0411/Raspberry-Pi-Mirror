@@ -83,39 +83,39 @@ app.get("/checkToken", verifyToken, function(req, res) {
 });
 
 app.post("/api/login", function(req, res) {
-  const { email, password } = req.body;
-  console.log(email, password)
-  User.findOne({ email }, function(err, user) {
+  const { username, password } = req.body;
+  console.log(username, password);
+  User.findOne({ username }, function(err, user) {
     if (err) {
       console.error(err);
       res.status(500).json({
-        error: "Internal error please try again"
+        error: "Internal error (server) please try again"
       });
     } else if (!user) {
       res.status(401).json({
-        error: "Incorrect email or password"
+        error: "Incorrect username or password"
       });
     } else {
       user.isCorrectPassword(password, function(err, same) {
         if (err) {
           res.status(500).json({
-            error: "Internal error please try again"
+            error: "Internal error (server) please try again"
           });
         } else if (!same) {
           res.status(401).json({
-            error: "Incorrect email or password"
+            error: "Incorrect username or password"
           });
         } else {
           // Issue token
-          const payload = { email };
+          const payload = { username };
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "4h"
           });
-          console.log(token)
+          console.log(token);
           res.json({
-            username: email,
+            username: username,
             token: token
-          })
+          });
           // res.json({
           //   token: token,
           //   message: 'successfully authenticated'
@@ -139,12 +139,12 @@ app.post("/api/login", function(req, res) {
 
 // Register new user
 app.post("/api/register", function(req, res) {
-  const { email, password } = req.body;
-  const user = new User({ email, password });
+  const { username, password } = req.body;
+  const user = new User({ username, password });
   user.save(function(err) {
     if (err) {
       console.log(err);
-      res.status(500).send("Error registering new user please try again.");
+      res.status(500).send("Error registering new user (from the server) please try again.");
     } else {
       res.status(200).send("Welcome to the club!");
     }
