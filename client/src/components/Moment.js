@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 import "../containers/Display.css";
@@ -34,7 +36,15 @@ class Moment extends Component {
   render() {
     return (
       <Row>
-        <Col xs={12}>{this.state.date}</Col>
+        <Col xs={12}>
+          <span className='pr-2 mb-4'>
+            {" "}
+            <Link to="/">
+              <FaHome />
+            </Link>
+          </span>
+          {this.state.date}
+        </Col>
         <Col xs={12}>
           <div className="Moment-time">{this.state.time}</div>
         </Col>

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Button, Form, Col, Row, Card, ListGroup } from "react-bootstrap";
+import { Button, Form, Col, Row, ListGroup } from "react-bootstrap";
 //import commuteInput from '../components/commuteInput'
 import "../containers/Display.css";
 import axios from "axios";
 import CommuteDelete from "../components/CommuteDelete";
+import './HomePage.css'
 
 class Custom extends Component {
   constructor(props) {
@@ -19,18 +20,16 @@ class Custom extends Component {
     this.deleteCommute = this.deleteCommute.bind(this);
   }
 
-  componentDidMount(){
-    this.getGeo()
+  componentDidMount() {
+    this.getGeo();
   }
 
-  getGeo(){
-    axios
-      .get('api/geo')
-      .then(res => {
-        this.setState({
-          currentGeo: res.data
-        })
-      })
+  getGeo() {
+    axios.get("api/geo").then(res => {
+      this.setState({
+        currentGeo: res.data
+      });
+    });
   }
 
   handleGeoUpdate(e) {
@@ -84,27 +83,28 @@ class Custom extends Component {
     const commuteList = this.props.commuteList;
     const { currentGeo } = this.state;
     return (
-      <div className="Custom-Box">
-        <Card>
-          <Card.Body>
-            <Row className='Custom-Geo align-items-center'>
-              <Col md={4}>
-                <Button variant="info" onClick={this.handleGeoUpdate}>
-                  Update current location
-                </Button>
-              </Col>
-              <Col>
-                  Your current location is <span className='font-italic font-weight-bold'>{currentGeo.city}, {currentGeo.state}</span>.
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+      <>
+        <Row className="Custom-Geo mx-1 my-2 py-2 px-1 align-items-center">
+          <Col md={4}>
+            <Button variant="outline-primary" className='Button-Geo' onClick={this.handleGeoUpdate}>
+              Update current location
+            </Button>
+          </Col>
+          <Col>
+            <p>
+              Your current location is{" "}
+              <span className="font-italic font-weight-bold">
+                {currentGeo.city}, {currentGeo.state}
+              </span>
+              .
+            </p>
+          </Col>
+        </Row>
 
-        <Card>
-          <Card.Header>
-            <h3>Commute</h3>
-          </Card.Header>
-          <Card.Body>
+        <Row className='Custom-Commute mx-1 my-2 py-2 px-1'>
+          <h3 className='p-3 mb-lg-2'>Commute</h3>
+
+          <Col xs={12} className='Commute-Form'>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group as={Row} controlId="commuteName">
                 <Form.Label column sm="2">
@@ -133,17 +133,19 @@ class Custom extends Component {
                   />
                 </Col>
               </Form.Group>
-              <Button variant="info" type="submit">
+              <Button variant="outline-info" className='Button-Commute' type="submit">
                 Add
               </Button>
             </Form>
-
-            <ListGroup variant="flush" className='mt-3'>
+          </Col>
+          
+          <Col xs={12} className='Commute-List'>
+            <ListGroup variant="flush" className="mt-3">
               {commuteList.map(commute => (
                 <ListGroup.Item key={commute._id}>
-                  <Row className='Custom-CommuteList align-items-center'>
-                    <Col xs={3}>{commute.name}</Col>
-                    <Col xs={8}>{commute.address}</Col>
+                  <Row className="align-items-center">
+                    <Col xs={2} style={{color: 'magenta'}} className='font-weight-bold text-capitalize'>{commute.name}</Col>
+                    <Col xs={9}>{commute.address}</Col>
                     <Col xs={1}>
                       <CommuteDelete
                         commuteID={commute._id}
@@ -156,9 +158,9 @@ class Custom extends Component {
                 </ListGroup.Item>
               ))}
             </ListGroup>
-          </Card.Body>
-        </Card>
-      </div>
+          </Col>
+        </Row>
+      </>
     );
   }
 }

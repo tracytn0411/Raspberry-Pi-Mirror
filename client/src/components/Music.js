@@ -8,6 +8,8 @@ class Music extends Component {
     // return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
     return <YouTubePlayer
     url='https://www.youtube.com/watch?v=ShZ978fBl6Y'
+    width='80%'
+    height='80%'
     playing
     controls
     // Other ReactPlayer props will work here

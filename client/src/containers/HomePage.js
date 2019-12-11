@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import Custom from "./Custom";
 import axios from "axios";
-//import Display from "./Display";
+import "./HomePage.css";
 import { FaGithub } from "react-icons/fa";
 
 class HomePage extends Component {
@@ -39,7 +39,7 @@ class HomePage extends Component {
     const user = localStorage.getItem("jwt");
     this.setState({
       user: user
-    })
+    });
   }
 
   getCommute() {
@@ -85,22 +85,22 @@ class HomePage extends Component {
     });
   }
 
-  logout = (event) => {
+  logout = event => {
     event.preventDefault();
-    localStorage.removeItem('jwt');
-    this.setState({ user: ''}, () => {
-      this.props.history.push('/login')
-    })
-  }
+    localStorage.removeItem("jwt");
+    this.setState({ user: "" }, () => {
+      this.props.history.push("/login");
+    });
+  };
 
   render() {
     return (
       <>
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="dark" variant="dark" expand="lg">
           <Navbar.Brand href="/">React Smart Mirror</Navbar.Brand>
           <Nav className="mr-auto px-3">
             <Nav.Item className="px-2">
-              <Link to="/display" className="btn btn-info">
+              <Link to="/display" className="btn btn-outline-primary">
                 Run
               </Link>
             </Nav.Item>
@@ -113,31 +113,29 @@ class HomePage extends Component {
           </a>
         </Navbar>
 
-        <Container fluid>
+        <Container fluid className="HomePage-Container mt-1">
           <Row>
-            <Col xs={6} className="HomePage-Custom">
+            <Col xs={6} className="HomePage-Left">
               <Row>
                 <Col>
                   <Form onSubmit={this.logout}>
-                    <Button type='submit' value='Submit'>Log Out</Button>
+                    <Button type="submit" value="Submit" variant='outline-secondary'>
+                      Log Out
+                    </Button>
                   </Form>
                 </Col>
               </Row>
             </Col>
-            <Col xs={6}>
-              <Row>
-                <Col xs={12}>
-                  <Custom
-                    nameInput={this.state.nameInput}
-                    addressInput={this.state.addressInput}
-                    commuteList={this.state.commuteData}
-                    onNameChange={this.handleNameChange}
-                    onAddressChange={this.handleAddressChange}
-                    onSubmitClicked={this.handleSubmitClicked}
-                    deleteCommute={this.deleteCommute}
-                  />
-                </Col>
-              </Row>
+            <Col xs={6} className="HomePage-Right">
+              <Custom
+                nameInput={this.state.nameInput}
+                addressInput={this.state.addressInput}
+                commuteList={this.state.commuteData}
+                onNameChange={this.handleNameChange}
+                onAddressChange={this.handleAddressChange}
+                onSubmitClicked={this.handleSubmitClicked}
+                deleteCommute={this.deleteCommute}
+              />
             </Col>
           </Row>
         </Container>

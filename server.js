@@ -170,8 +170,9 @@ app.post("/weather", (req, res) => {
 });
 
 app.get("/api/news", (req, res) => {
-  var newsURL = `https://newsapi.org/v2/top-headlines?country=us&pageSize=7&apiKey=${process.env.GOOGLENEWS_API_KEY}`;
-
+  var newsURL = `https://newsapi.org/v2/top-headlines?sources=cnn,techcrunch,cnet.com,usa-today,wired,engadget&pageSize=7&apiKey=${process.env.GOOGLENEWS_API_KEY}`;
+  console.log(newsURL)
+  // https://newsapi.org/v2/top-headlines?sources=associated-press,entertainment-weekly&apiKey=dcbb42410f6848bea5f4573b2e31f702
   axios
     .get(newsURL)
     .then(response => {
