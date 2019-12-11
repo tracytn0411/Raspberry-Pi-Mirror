@@ -10,6 +10,7 @@ import {
   Form
 } from "react-bootstrap";
 import Custom from "./Custom";
+import CustomMusic from "./CustomMusic"
 import axios from "axios";
 import "./HomePage.css";
 import { FaGithub } from "react-icons/fa";
@@ -21,18 +22,27 @@ class HomePage extends Component {
       nameInput: "",
       addressInput: "",
       commuteData: [],
-      user: ""
+      user: "",
+      titleInput: "",
+      linkInput: "",
+      mediaData: []
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleSubmitClicked = this.handleSubmitClicked.bind(this);
     this.deleteCommute = this.deleteCommute.bind(this);
     this.logout = this.logout.bind(this);
+    //steve - bind methods
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleMediaChange = this.handleMediaChange.bind(this);
+    this.handleMediaClick = this.handleMediaClick.bind(this);
+    this.saveDeleteMedia = this.saveDeleteMedia.bind(this);
   }
 
   componentDidMount() {
     this.getCommute();
     this.getUser();
+    this.getMedia();
   }
 
   getUser() {
@@ -93,6 +103,51 @@ class HomePage extends Component {
     });
   };
 
+  //Steve - media 
+  handleTitleChange(titleInput) {
+    this.setState({
+      titleInput: titleInput
+    });
+  }
+
+  handleMediaChange(linkInput) {
+    this.setState({
+      linkInput: linkInput
+    });
+  }
+
+  handleMediaClick(data) {
+    var newMediaData = this.state.mediaData.concat(data);
+    this.setState({
+      mediaData: newMediaData,
+      titleInput: "",
+      linkInput: ""
+    });
+  }
+
+  getMedia() {
+    axios
+      .get(`/api/media`)
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          mediaData: res.data
+        });
+      })
+      .catch(err => console.log(`Axios get /api/media error: ${err}`));
+  }
+
+  saveDeleteMedia(id) {
+    axios
+      .delete(`/api/media/${id}`)
+      .then(res => {
+        console.log(res.data);
+      })
+      .then(this.getMedia())
+      .catch(err => console.log(`Delete media error: ${err}`));
+  }
+  ////steve - media
+
   render() {
     return (
       <>
@@ -126,16 +181,44 @@ class HomePage extends Component {
                 </Col>
               </Row>
             </Col>
-            <Col xs={6} className="HomePage-Right">
-              <Custom
-                nameInput={this.state.nameInput}
-                addressInput={this.state.addressInput}
-                commuteList={this.state.commuteData}
-                onNameChange={this.handleNameChange}
-                onAddressChange={this.handleAddressChange}
-                onSubmitClicked={this.handleSubmitClicked}
-                deleteCommute={this.deleteCommute}
-              />
+
+            <Col xs={6}>
+              <Row>
+                <Col xs={12}>
+                  <Custom
+                    nameInput={this.state.nameInput}
+                    addressInput={this.state.addressInput}
+                    commuteList={this.state.commuteData}
+                    onNameChange={this.handleNameChange}
+                    onAddressChange={this.handleAddressChange}
+                    onSubmitClicked={this.handleSubmitClicked}
+                    deleteCommute={this.deleteCommute}
+                  />
+                </Col>
+                <Col xs={12}>
+                  <CustomMusic 
+                    titleInput={this.state.titleInput}
+                    linkInput={this.state.linkInput}
+                    playList={this.state.mediaData}
+                    onTitleChange={this.handleTitleChange}
+                    onMediaChange={this.handleMediaChange}
+                    submitClick={this.handleMediaClick}
+                    saveDeleteMedia={this.saveDeleteMedia}
+                  />
+                </Col>
+              </Row>
+
+            //<Col xs={6} className="HomePage-Right">
+              //<Custom
+                //nameInput={this.state.nameInput}
+                //addressInput={this.state.addressInput}
+                //commuteList={this.state.commuteData}
+                //onNameChange={this.handleNameChange}
+                //onAddressChange={this.handleAddressChange}
+                //onSubmitClicked={this.handleSubmitClicked}
+                //deleteCommute={this.deleteCommute}
+              ///>
+
             </Col>
           </Row>
         </Container>

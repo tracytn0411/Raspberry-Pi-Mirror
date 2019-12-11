@@ -36,6 +36,13 @@ class News extends Component {
         </Col>
         {this.state.articles.map((news, i) => {
           return (
+
+            //<Col xs={11} key={i}>
+             // <p className='News-title text-truncate m-1'>
+                //<FaRegNewspaper style={{color:'grey'}}/>{news.title.trim()}
+                {/* <FaRegNewspaper style={{color:'grey'}}/>{news.title.replace(/-[^-]*$/, "").trim()} */}
+             // </p>
+              {/* <p className='News-title text-truncate m-1' style={{fontStyle: 'italic'}}>- {news.source.name}</p> */}
             <Col xs={12} key={i}>
               <Row className="no-gutters">
                 <Col xs={2} className="News-source text-right text-nowrap pr-1">
@@ -52,6 +59,7 @@ class News extends Component {
                 </p>
                 <p className='News-title text-truncate m-1' style={{fontStyle: 'italic'}}>- {news.source.name}</p> */}
               </Row>
+
             </Col>
           );
         })}

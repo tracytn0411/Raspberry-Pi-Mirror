@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./Auth.css";
 import logo from "../logo.svg";
 
+
 export default class LoginPage extends Component {
   constructor(props) {
     super(props);

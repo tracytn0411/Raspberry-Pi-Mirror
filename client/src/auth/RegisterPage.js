@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Card, Container, Col, Row, Button, Form } from "react-bootstrap";
+import './Register.css'
 import { Link } from "react-router-dom";
 import "./Auth.css";
 import logo from "../logo.svg";
+
 
 class RegisterPage extends Component {
   constructor(props) {

@@ -69,10 +69,10 @@ class Custom extends Component {
         address: newAddress
       })
       .then(res => {
-        console.log(res.data);
+        console.log('res', res.data);
         this.props.onSubmitClicked(res.data);
       })
-      .catch(err => console.log(`Custom commute error: ${err}`));
+      .catch(err => console.log(`Custom media error: ${err}`));
   }
 
   deleteCommute(commuteId) {
