@@ -49,11 +49,11 @@ class Forecast extends Component {
           <Col xs={4} className="Weather-info">
             <Row>
               <Col>
-                <WiStrongWind style={{color: "cyan" }}/>
+                <WiStrongWind style={{ color: "cyan" }} />
                 {today.windSpeed}
               </Col>
               <Col>
-                <WiHumidity style={{color: "cyan" }} />
+                <WiHumidity style={{ color: "cyan" }} />
                 {today.humidity}
               </Col>
             </Row>
@@ -69,11 +69,11 @@ class Forecast extends Component {
           </Col>
         </Row>
 
-        <Row className="Forecast-row justify-content-end text-center align-items-center">
+        <Row className="Forecast-row justify-content-end align-items-center">
           <Col xs={6} className="Forecast-headline d-flex">
             <div className="mr-auto p-0">Forecast</div>
-            <div>{city}, </div>
-            <div>{state}</div>
+            <div className="p-0 flex-fill text-right">{city},</div>
+            <div>&nbsp;{state}</div>
           </Col>
           {forecast.map((forecast, i) => (
             <Col xs={12} key={i}>

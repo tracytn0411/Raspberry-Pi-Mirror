@@ -1,0 +1,19 @@
+
+/*NavBar*/
+.navbar {
+  padding: 0 0.5rem;
+}
+
+/* HomePage Container*/
+.HomePage-Container {
+  font-size: 1.2rem;
+}
+
+.Custom-Geo,
+.Custom-Commute {
+  border: 1px solid white
+}
+
+.Commute-List .list-group-item {
+  background-color: transparent;
+}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FaRegNewspaper } from "react-icons/fa";
+//import { FaRegNewspaper } from "react-icons/fa";
 import { Row, Col } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment";
@@ -30,18 +30,36 @@ class News extends Component {
 
   render() {
     return (
-      <Row key className='News-row'>
-        <Col xs={10} className="News-headline d-flex">
-          <div className="mr-auto p-0">News</div>
+      <Row key className="News-row">
+        <Col xs={11} className="News-headline">
+          <div className="p-0">News</div>
         </Col>
         {this.state.articles.map((news, i) => {
           return (
-            <Col xs={11} key={i}>
-              <p className='News-title text-truncate m-1'>
-                <FaRegNewspaper style={{color:'grey'}}/>{news.title.trim()}
+
+            //<Col xs={11} key={i}>
+             // <p className='News-title text-truncate m-1'>
+                //<FaRegNewspaper style={{color:'grey'}}/>{news.title.trim()}
                 {/* <FaRegNewspaper style={{color:'grey'}}/>{news.title.replace(/-[^-]*$/, "").trim()} */}
-              </p>
+             // </p>
               {/* <p className='News-title text-truncate m-1' style={{fontStyle: 'italic'}}>- {news.source.name}</p> */}
+            <Col xs={12} key={i}>
+              <Row className="no-gutters">
+                <Col xs={2} className="News-source text-right text-nowrap pr-1">
+                  {news.source.name}
+                </Col>
+                <Col xs={10}>
+                  <p className="News-title text-truncate mb-0">
+                    | {news.title.replace(/-[^-]*$/, "").trim()}
+                  </p>
+                </Col>
+
+                {/* <p className='News-title text-truncate m-1'>
+                  <FaRegNewspaper style={{color:'grey'}}/>{news.title.replace(/-[^-]*$/, "").trim()}
+                </p>
+                <p className='News-title text-truncate m-1' style={{fontStyle: 'italic'}}>- {news.source.name}</p> */}
+              </Row>
+
             </Col>
           );
         })}

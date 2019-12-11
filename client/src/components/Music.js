@@ -48,6 +48,7 @@ class Music extends Component {
     )
  
     // return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
+
   //   return <YouTubePlayer
   //    //url='https://www.youtube.com/watch?v=ApXoWvfEYVU'
   //   //url= {mediaData[2].link}
@@ -55,6 +56,16 @@ class Music extends Component {
   //   controls
   //   // Other ReactPlayer props will work here
   // />
+
+   //return <YouTubePlayer
+   // url='https://www.youtube.com/watch?v=ShZ978fBl6Y'
+   // width='80%'
+   //height='80%'
+   // playing
+   //controls
+   // Other ReactPlayer props will work here
+   ///>
+
   
   }
 }

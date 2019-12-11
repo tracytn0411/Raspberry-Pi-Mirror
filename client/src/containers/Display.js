@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Link } from 'react-router-dom'
-import "../containers/Display.css";
+import "./Display.css";
 import Moment from "../components/Moment";
 //import Weather from "../components/Weather";
 import News from "../components/News";
@@ -9,31 +8,32 @@ import Forecast from "../components/Forecast";
 import Music from "../components/Music";
 import Commute from "../components/Commute";
 
+
 function Display() {
   return (
-    <Container fluid className="Display-Container">
+    <Container fluid className="Display-Container m-0 p-0">
       <Row className='no-gutters'>
-        <Col md={6} className='Display-Left d-flex flex-column'>
+        <Col md={6} className='Display-Left d-flex flex-column justify-content-between'>
           <Row className='Left-Top'>
             <Col>
               <Moment />
-              <Link to='/' className='btn btn-secondary'></Link>
             </Col>
           </Row>
+
           <Row className='Left-Middle'>
             <Col>
               <Music />
             </Col>
           </Row>
 
-          <Row className='Left-Bottom fixed-bottom'>
-            <Col xs={6}>
+          <Row className='Left-Bottom'>
+            <Col>
               <News />
             </Col>
           </Row>
         </Col>
 
-        <Col md={6} className='Display-Right d-flex flex-column'>
+        <Col md={6} className='Display-Right d-flex flex-column justify-content-start'>
           <Row className='Right-Top mb-4'>
             <Col><Forecast /></Col>
           </Row>
