@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card, Container, Col, Row, Button, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom'
+import './Register.css'
 
 class RegisterPage extends Component {
   constructor(props) {

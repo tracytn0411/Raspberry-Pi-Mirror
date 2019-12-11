@@ -26,6 +26,7 @@ const mongoose = require("mongoose");
 const Location = require("./models/geo");
 const Commute = require("./models/commute");
 const User = require("./models/user");
+const Media = require("./models/media")
 
 //const dbURI = "mongodb://localhost:27017/raspi_mirror";
 const dbURI = process.env.MONGODB_MIRROR_URI;
@@ -373,6 +374,44 @@ app.get("/api/forecast", (req, res) => {
         .catch(error => {
           console.log(`Dark Sky error: ${error}`);
         });
+    }
+  });
+});
+
+//steve
+// API to add media link
+app.post("/api/media", async (req, res) => {
+  var newTitle = req.body.title;
+  var newLink = req.body.link;
+  console.log(`newTitle : ${newTitle}, newLink: ${newLink}`); 
+
+  const med = new Media({
+    title: newTitle,
+    link: newLink
+  });
+
+  await med.save((err, doc) => {
+    if (err) console.log(`media save error: ${err}`);
+    else res.json(doc);
+  });
+});
+
+// API to get media info
+app.get("/api/media", (req, res) => {
+  Media.find({})
+    .sort({ timeStamp: 1 })
+    .exec((error, doc) => {
+      if (error) console.log(`Mongoose get commute error: ${error}`);
+      else res.json(doc);
+    });
+});
+
+// API to delete media from list
+app.delete("/api/media/:id", (req, res) => {
+  Media.findByIdAndRemove({ _id: req.params.id }).exec((err, doc) => {
+    if (err) return console.log(`MongoDB delete media ERROR: ${err}`);
+    else {
+      console.log(`Deleted link: ${doc}`);
     }
   });
 });

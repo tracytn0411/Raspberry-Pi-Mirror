@@ -1,6 +1,6 @@
 # Magic Mirror 
 
-> Magic Mirror is a smart mirror application display powered by a Raspberry Pi 3 built on the **MERN** stack (`MongoDB`, `Express`, `React`, and `Node.js`).
+> Magic Mirror is a smart mirror application display powered by a *Raspberry Pi 3* built on the **MERN** stack (`MongoDB`, `Express`, `React`, and `Node.js`).
 
 <!-- toc -->
 
@@ -48,6 +48,7 @@ Click here to see a preview of the live display. It has been deployed on Heroku.
 ### Hardware
 
 Tools used to construct the Magic Mirror include:
+
 - Two-way mirror
 - Custom monitor
 - Rasberrry Pi 3 
@@ -64,7 +65,7 @@ Tools used to construct the Magic Mirror include:
 
 ## Authors 
 
-[Tracy Nguyen] (https://github.com/tracytn0411)
-[Steve Yai] (https://github.com/stephenyai)
-[Miko Techasathitwong] (https://github.com/ptechasa)
-[Alvin Zhang]
+- [Tracy Nguyen] (https://github.com/tracytn0411)
+- [Steve Yai] (https://github.com/stephenyai)
+- [Miko Techasathitwong] (https://github.com/ptechasa)
+- Alvin Zhang

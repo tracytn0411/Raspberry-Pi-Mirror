@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Container, Col, Row, Button, Form } from "react-bootstrap";
 import { Link } from 'react-router-dom'
-
+import './Login.css'
 
 export default class LoginPage extends Component {
   constructor(props) {
