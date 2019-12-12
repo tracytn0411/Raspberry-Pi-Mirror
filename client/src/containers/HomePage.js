@@ -10,7 +10,7 @@ import {
   Form
 } from "react-bootstrap";
 import Custom from "./Custom";
-import CustomMusic from "./CustomMusic"
+import CustomMusic from "./CustomMusic";
 import axios from "axios";
 import "./HomePage.css";
 import { FaGithub } from "react-icons/fa";
@@ -103,7 +103,7 @@ class HomePage extends Component {
     });
   };
 
-  //Steve - media 
+  //Steve - media
   handleTitleChange(titleInput) {
     this.setState({
       titleInput: titleInput
@@ -172,31 +172,20 @@ class HomePage extends Component {
           <Row>
             <Col xs={6} className="HomePage-Left">
               <Row>
-                <Col>
+                <Col xs={12} className='mb-2'>
                   <Form onSubmit={this.logout}>
-                    <Button type="submit" value="Submit" variant='outline-secondary'>
+                    <Button
+                      type="submit"
+                      value="Submit"
+                      variant="outline-secondary"
+                    >
                       Log Out
                     </Button>
                   </Form>
                 </Col>
-              </Row>
-            </Col>
 
-            <Col xs={6}>
-              <Row>
-                <Col xs={12}>
-                  <Custom
-                    nameInput={this.state.nameInput}
-                    addressInput={this.state.addressInput}
-                    commuteList={this.state.commuteData}
-                    onNameChange={this.handleNameChange}
-                    onAddressChange={this.handleAddressChange}
-                    onSubmitClicked={this.handleSubmitClicked}
-                    deleteCommute={this.deleteCommute}
-                  />
-                </Col>
-                <Col xs={12}>
-                  <CustomMusic 
+                <Col className='mt-4' xs={12}>
+                  <CustomMusic
                     titleInput={this.state.titleInput}
                     linkInput={this.state.linkInput}
                     playList={this.state.mediaData}
@@ -207,18 +196,17 @@ class HomePage extends Component {
                   />
                 </Col>
               </Row>
-
-            //<Col xs={6} className="HomePage-Right">
-              //<Custom
-                //nameInput={this.state.nameInput}
-                //addressInput={this.state.addressInput}
-                //commuteList={this.state.commuteData}
-                //onNameChange={this.handleNameChange}
-                //onAddressChange={this.handleAddressChange}
-                //onSubmitClicked={this.handleSubmitClicked}
-                //deleteCommute={this.deleteCommute}
-              ///>
-
+            </Col>
+            <Col xs={6} className="HomePage-Right">
+              <Custom
+                nameInput={this.state.nameInput}
+                addressInput={this.state.addressInput}
+                commuteList={this.state.commuteData}
+                onNameChange={this.handleNameChange}
+                onAddressChange={this.handleAddressChange}
+                onSubmitClicked={this.handleSubmitClicked}
+                deleteCommute={this.deleteCommute}
+              />
             </Col>
           </Row>
         </Container>

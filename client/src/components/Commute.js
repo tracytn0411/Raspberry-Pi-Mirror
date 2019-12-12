@@ -48,7 +48,7 @@ class Commute extends Component {
                 {commute.directions.map((route, i) => (
                   <Row className="Commute-route justify-content-end align-items-center" key={i}>
                     <Col xs={7} className='text-secondary p-0'>{route.summary}</Col>
-                    <Col xs={5} className='text-right p-0'>{route.driveTime.replace(/ hour/g,'hr').replace(/ minute/g,'min')}</Col>
+                    <Col xs={5} className='text-right p-0'>{route.driveTime.replace(/hour/g,'hr').replace(/minute/g,'min')}</Col>
                   </Row>
                 ))}
               </Col>

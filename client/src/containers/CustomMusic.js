@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Button, Form, Col, Row, Card, ListGroup } from "react-bootstrap";
-import "../containers/Display.css";
+import { Button, Form, Col, Row, ListGroup } from "react-bootstrap";
 import axios from "axios";
 import SaveDeleteMedia from "../components/SaveDeleteMedia";
-import Checkbox from "../components/Checkbox";
+//import Checkbox from "../components/Checkbox";
+import "./HomePage.css";
 
 class CustomMusic extends Component {
   constructor(props) {
@@ -11,8 +11,8 @@ class CustomMusic extends Component {
     this.state = {
       checkboxes: this.props.playList.reduce(
         (options, option) => ({
-        ...options,
-        [option]: false
+          ...options,
+          [option]: false
         }),
         {}
       )
@@ -39,7 +39,7 @@ class CustomMusic extends Component {
     e.preventDefault();
     var newTitle = this.props.titleInput;
     var newMedia = this.props.linkInput;
-    console.log('newTitle', newTitle, newMedia)
+    console.log("newTitle", newTitle, newMedia);
 
     axios
       .post("api/media", {
@@ -47,7 +47,7 @@ class CustomMusic extends Component {
         link: newMedia
       })
       .then(res => {
-        console.log('res',res.data);
+        console.log("res", res.data);
         this.props.submitClick(res.data);
       })
       .catch(err => console.log(`Custom commute error: ${err}`));
@@ -61,7 +61,7 @@ class CustomMusic extends Component {
 
   handleCheckboxChange = changeEvent => {
     const { name } = changeEvent.target;
-  
+
     this.setState(prevState => ({
       checkboxes: {
         ...prevState.checkboxes,
@@ -70,22 +70,21 @@ class CustomMusic extends Component {
     }));
 
     Object.keys(this.state.checkboxes)
-    .filter(checkbox => this.state.checkboxes[checkbox])
-    .forEach(checkbox => {
-    console.log(checkbox, "is selected.");
-    });
+      .filter(checkbox => this.state.checkboxes[checkbox])
+      .forEach(checkbox => {
+        console.log(checkbox, "is selected.");
+      });
   };
 
   render() {
     const playList = this.props.playList;
-    console.log('playList', playList)
+    console.log("playList", playList);
     return (
       <div>
-        <Card>
-          <Card.Header>
-            <h3>Media Player</h3>
-          </Card.Header>
-          <Card.Body>
+        <Row className="Custom-Music mx-1 my-2 py-2 px-1">
+          <h3 className="p-3 mb-lg2">Youtube Player</h3>
+
+          <Col xs={12} className="Media-Form">
             <Form onSubmit={this.submitHandle}>
               <Form.Group as={Row}>
                 <Form.Label column sm="2">
@@ -103,7 +102,7 @@ class CustomMusic extends Component {
 
               <Form.Group as={Row}>
                 <Form.Label column sm="2">
-                  Link
+                  URL
                 </Form.Label>
                 <Col sm="10">
                   <Form.Control
@@ -114,39 +113,41 @@ class CustomMusic extends Component {
                   />
                 </Col>
               </Form.Group>
-              <Button variant="info" type="submit">
+              <Button variant="outline-info" type="submit">
                 Add
               </Button>
             </Form>
+          </Col>
 
-            <ListGroup variant="flush" className='mt-3'>
-                        {playList.map(media => (
-                            <ListGroup.Item key={media._id}>
-                            <Row className='Custom-CommuteList align-items-center'>
-                                <Col xs={3}>{media.title}</Col>
-                                <Col xs={8}>{media.link}</Col>
-                                <Col xs={1}>
-                                <Checkbox
-					                label='Save'
-					                isSelected={this.state.checkboxes[media]}
-					                onCheckboxChange={this.handleCheckboxChange}
-					                key={media._id}
-                                />    
-                                </Col>
-                                <Col xs={1}>
-                                <SaveDeleteMedia
-                                    mediaID={media._id}
-                                    value={media._id}
-                                    data_media={media}
-                                    saveDeleteMedia={this.saveDeleteMedia}
-                                />
-                                </Col>
-                            </Row>
-                            </ListGroup.Item>
-                        ))}
-                        </ListGroup>
-          </Card.Body>
-        </Card>
+          <Col xs={12} className="Playlist">
+            <ListGroup variant="flush" className="mt-3">
+              {playList.map(media => (
+                <ListGroup.Item key={media._id}>
+                  <Row className="Custom-CommuteList align-items-center">
+                    <Col xs={3}>{media.title}</Col>
+                    <Col xs={8}>{media.link}</Col>
+                    {/* <Col xs={1}>
+                        <Checkbox
+                          label="Save"
+                          isSelected={this.state.checkboxes[media]}
+                          onCheckboxChange={this.handleCheckboxChange}
+                          key={media._id}
+                        />
+                      </Col> */}
+                    <Col xs={1}>
+                      <SaveDeleteMedia
+                        mediaID={media._id}
+                        value={media._id}
+                        data_media={media}
+                        saveDeleteMedia={this.saveDeleteMedia}
+                      />
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Col>
+        </Row>
       </div>
     );
   }

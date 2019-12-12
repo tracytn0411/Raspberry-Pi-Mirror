@@ -9,11 +9,19 @@
   font-size: 1.2rem;
 }
 
+/*LEFT*/
+
+
+
+/*RIGHT*/
+
+.Custom-Music,
 .Custom-Geo,
 .Custom-Commute {
   border: 1px solid white
 }
 
-.Commute-List .list-group-item {
+.Commute-List .list-group-item,
+.Playlist .list-group-item {
   background-color: transparent;
 }

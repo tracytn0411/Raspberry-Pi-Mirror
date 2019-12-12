@@ -41,6 +41,8 @@ class Music extends Component {
         console.log(data)
         return <YouTubePlayer 
           url={data.link}
+          width='80%'
+          height='80%'
           playing
           controls
         />  
