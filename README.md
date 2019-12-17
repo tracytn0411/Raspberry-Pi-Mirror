@@ -6,13 +6,13 @@
 
 - [Magic Mirror](#magic-mirror)
   - [Overview](#overview)
-  - [Live Preview Demo](#live-preview-demo)
+  - [Live Demo](#live-demo)
   - [Screenshots](#screenshots)
     - [Display](#display)
-    - [Customizable page](#customizable-page)
+    - [Customizable Page](#customizable-page)
   - [Technologies](#technologies)
     - [Hardware](#hardware)
-    - [Software](#software) 
+    - [Software](#software)
   - [Authors](#authors)
 
 <!-- tocstop -->
@@ -27,7 +27,7 @@ The **Magic Mirror** is powered by a [Raspberry Pi 3] (https://www.raspberrypi.o
 
 ## Live Demo
 
-Click here to see a preview of the live display. It has been deployed on Heroku. 
+Click [here](https://full-stack-smart-mirror.herokuapp.com/) to see a preview of the live display. It has been deployed on Heroku. 
 
 -----
 
