@@ -38,7 +38,7 @@
     "googleapis": "^45.0.0",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.7.9",
     "newrelic": "^6.1.0"
   }
